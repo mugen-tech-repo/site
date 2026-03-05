@@ -80,11 +80,58 @@ export default {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
+          "33%": { transform: "translateY(-15px) rotate(2deg)" },
+          "66%": { transform: "translateY(-8px) rotate(-1deg)" },
+        },
+        "float-slow": {
+          "0%, 100%": { transform: "translateY(0px) scale(1)" },
+          "50%": { transform: "translateY(-20px) scale(1.02)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "0.4", filter: "blur(40px)" },
+          "50%": { opacity: "0.7", filter: "blur(50px)" },
+        },
+        "gradient-shift": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
+        },
+        "shimmer": {
+          "0%, 100%": { transform: "translateX(-100%)" },
+          "50%": { transform: "translateX(100%)" },
+        },
+        "bounce-subtle": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(8px)" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "gear-spin": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "typing-blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "scroll-left": "scroll-left 20s linear infinite",
+        "float": "float 6s ease-in-out infinite",
+        "float-slow": "float-slow 8s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 4s ease-in-out infinite",
+        "gradient-shift": "gradient-shift 6s ease infinite",
+        "shimmer": "shimmer 3s ease-in-out infinite",
+        "bounce-subtle": "bounce-subtle 2s ease-in-out infinite",
+        "spin-slow": "spin-slow 20s linear infinite",
+        "gear-spin": "gear-spin 8s linear infinite",
+        "typing-blink": "typing-blink 1s step-end infinite",
       },
     },
   },

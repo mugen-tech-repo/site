@@ -7,20 +7,24 @@ import PortfolioSection from "@/components/PortfolioSection";
 import ContactSection from "@/components/ContactSection";
 import CtaBanner from "@/components/CtaBanner";
 import Footer from "@/components/Footer";
+import ParticlesBackground from "@/components/ParticlesBackground";
 
 const Index = () => {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <main className="min-h-screen">
-      <Navbar onOpenContact={() => setIsContactOpen(true)} />
-      <HeroSection onOpenContact={() => setIsContactOpen(true)} />
-      <TechStackCarousel />
-      <AboutSection />
-      <PortfolioSection />
-      <ContactSection isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
-      <CtaBanner onOpenContact={() => setIsContactOpen(true)} />
-      <Footer />
+    <main className="relative min-h-screen">
+      <ParticlesBackground />
+      <div className="relative z-10">
+        <Navbar onOpenContact={() => setIsContactOpen(true)} />
+        <HeroSection onOpenContact={() => setIsContactOpen(true)} />
+        <TechStackCarousel />
+        <AboutSection />
+        <PortfolioSection />
+        <ContactSection isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+        <CtaBanner onOpenContact={() => setIsContactOpen(true)} />
+        <Footer />
+      </div>
     </main>
   );
 };

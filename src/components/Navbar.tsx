@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "Início", href: "#hero" },
   { label: "Soluções", href: "#stack" },
+  { label: "Sobre", href: "#about" },
   { label: "Portfólio", href: "#portfolio" },
 ];
 
@@ -14,94 +15,92 @@ interface NavbarProps {
 
 const Navbar = ({ onOpenContact }: NavbarProps) => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleNavClick = (href: string) => {
-    if (href === "#contact") {
-      onOpenContact();
-    }
-    setOpen(false);
-  };
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+        ? "glass-strong shadow-lg shadow-black/10"
+        : "bg-transparent"
+        }`}
+    >
       <div className="container flex h-16 items-center justify-between">
-        <a href="#hero" className="font-display text-xl font-bold text-primary">
+        {/* Logo */}
+        <a href="#hero" className="font-display text-xl font-bold text-gradient-multi">
           Mugen
         </a>
 
-        {/* Desktop */}
+        {/* Desktop nav links */}
         <div className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => (
-            link.href === "#contact" ? (
-              <button
-                key={link.href}
-                onClick={onOpenContact}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </button>
-            ) : (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            )
+            <a
+              key={link.href}
+              href={link.href}
+              className="group relative text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {link.label}
+              <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
+            </a>
           ))}
           <button
             onClick={onOpenContact}
-            className="rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 glow-cyan"
+            className="shimmer relative rounded-full px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:scale-105 hover:shadow-lg"
+            style={{
+              background: "linear-gradient(135deg, hsl(187 100% 50%), hsl(220 100% 60%))",
+            }}
           >
-            Entre em contato
+            <span className="relative z-10">Entre em contato</span>
           </button>
         </div>
 
         {/* Mobile toggle */}
-        <button onClick={() => setOpen(!open)} className="text-foreground md:hidden">
-          {open ? <X size={24} /> : <Menu size={24} />}
+        <button
+          onClick={() => setOpen(!open)}
+          className="relative rounded-lg p-2 text-foreground transition-colors hover:bg-secondary/50 md:hidden"
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
+      {/* Mobile menu */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-border/50 bg-background md:hidden"
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden glass-strong md:hidden"
           >
-            <div className="container flex flex-col gap-4 py-6">
-              {navLinks.map((link) => (
-                link.href === "#contact" ? (
-                  <button
-                    key={link.href}
-                    onClick={() => {
-                      onOpenContact();
-                      setOpen(false);
-                    }}
-                    className="text-left text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </button>
-                ) : (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </a>
-                )
+            <div className="container flex flex-col gap-2 py-6">
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className="rounded-lg px-4 py-3 text-sm text-muted-foreground transition-colors hover:bg-secondary/40 hover:text-foreground"
+                >
+                  {link.label}
+                </motion.a>
               ))}
               <button
                 onClick={() => {
                   onOpenContact();
                   setOpen(false);
                 }}
-                className="w-fit rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground"
+                className="mt-2 w-fit rounded-full px-6 py-2.5 text-sm font-semibold text-primary-foreground"
+                style={{
+                  background: "linear-gradient(135deg, hsl(187 100% 50%), hsl(220 100% 60%))",
+                }}
               >
                 Entre em contato
               </button>
